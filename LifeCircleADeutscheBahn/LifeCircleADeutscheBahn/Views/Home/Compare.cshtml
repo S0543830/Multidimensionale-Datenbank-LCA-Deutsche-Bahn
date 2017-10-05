@@ -1,0 +1,161 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<LifeCircleADeutscheBahn.Models.Produkt>
+@{
+    ViewBag.Title = "Compare";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int itemCount = 0;
+}
+@{
+    ViewBag.Title = "Objekt auswählen";
+}
+@using (Html.BeginForm())
+{
+    <div class="ObjectBoxes">
+        <fieldset>
+            <div class="horizontalBar">
+                @Html.Hidden("id1",0)
+                @Html.Hidden("id2", 0)
+                @Html.Hidden("anzahl", 0)
+                <input type="text" name="keyword" @*required value="@ViewBag.Keyword" *@/>
+                <a> </a>
+                <input class="btn-default" type="submit" value="Suche"/>
+            </div>
+        </fieldset>
+        <table class="tableObjectlist">
+            <tr>
+                <th>
+                    @Html.ActionLink("Sortieren nach Name", "Index", new
+                    {
+                        sortOn
+                            = "Name",
+                        orderBy = ViewBag.OrderBy, pSortOn = ViewBag.SortOn, keyword =
+                            ViewBag.Keyword
+                    },new { id = "sort" })
+                </th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr class="listObjectChoice">
+                    <td>
+                        <a href='@Url.Action("Details", "Home", new {id = item.Id})'>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </a>
+                    </td>
+                    <td class="listObjectChoicekurzNew">
+                        <input type="checkbox" onclick="test(@item.Id,@itemCount)" name="item" id="checkId_@itemCount" value="@Html.DisplayFor(modelItem => item.Id)">
+                 
+                    </td>
+                </tr>
+                itemCount++;
+            }
+        </table>
+    </div>
+    <div>
+        <input type="button" onclick="btnVergleichen(0)" value="Vergleichen" class="btn btn-default">
+    </div>
+    <div class="pagedList">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new
+        {
+            page, sortOn = ViewBag.SortOn, orderBy = ViewBag.OrderBy, pSortOn =
+                ViewBag.SortOn,
+            keyword = ViewBag.Keyword
+        }),
+            PagedListRenderOptions.ClassicPlusFirstAndLast)
+    </div>
+    @section Scripts
+    {
+        <script language="javascript">
+            function test(p, c) {
+                var tep = $('.horizontalBar');
+                if ($('#checkId_' + c).is(':checked') === true) {
+
+                    var ID1 = 0;
+                    var ID2 = 0;
+                    $.each(tep.find('input[type=hidden]'),
+                        function() {
+                            var id = $(this).attr('id');
+                            var value = $(this).attr('value');
+                            if (id === 'id1') {
+                                ID1 = parseInt(value);
+                            }
+                            if (id === 'id2') {
+                                ID2 = parseInt(value);
+                            }
+                        });
+                    $.each(tep.find('input[type=hidden]'),
+                        function() {
+                            var id = $(this).attr('id');
+                            var value = $(this).attr('value');
+                            if (id === 'anzahl') {
+                                if (parseInt(value) > 1) {
+                                    alert('Sie dürfen nur zwei Obejkte auswählen!');
+                                    $('#checkId_' + c).prop('checked', false);
+                                }
+                                else {
+                                    if (parseInt(ID1) === 0) {
+                                        ID1 = parseInt(p);
+                                    } else {
+                                        ID2 = parseInt(p);
+                                    }
+                                    //Erhöhe Anzahl um 1
+                                    var asa = parseInt(value) + 1;
+                                    value = value.replace(value, asa);
+                                    $(this).attr('value', value);
+                                }
+                            }
+                        });
+
+                    $.each(tep.find('input[type=hidden]'),
+                        function() {
+                            var id = $(this).attr('id');
+                            var value = $(this).attr('value');
+                            if (parseInt(ID1) !== 0) {
+                                if (id === 'id1') {
+                                    value = value.replace(value, parseInt(ID1));
+                                }
+                                else if (id === 'id2'){
+                                    value = value.replace(value, parseInt(ID2));
+                            }
+                            }
+                            $(this).attr('value', value);
+                        });
+
+                } else {
+                    $.each(tep.find('input[type=hidden]'),
+                        function() {
+                            var value = $(this).attr('value');
+                            var id = $(this).attr('id');
+                            if (parseInt(value) === parseInt(p)) {
+                                value = value.replace(value, 0);
+                            }
+                            var asda = false;
+                            if (id ==='anzahl') {
+                                asda = true;
+                            }
+
+                            if (asda === true) {
+                                var sa = parseInt(value) - 1;
+                                value = value.replace(value, sa);
+                            }
+                            $(this).attr('value', value);
+                        });
+                }
+            }
+
+            function btnVergleichen(p) {
+                var id0 = $('#id1').val();
+                var id2 = $('#id2').val();
+                location.href = '@Html.Raw(Url.Action("CompareTwo", "Home"))' +
+                    '?id1=' +
+                    id0 +
+                    '&id2='+id2;
+             
+            }
+         
+
+
+        </script>
+    }
+    }
+

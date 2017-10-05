@@ -1,0 +1,28 @@
+﻿@model LifeCircleADeutscheBahn.Models.Produkt
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .my-class {
+        color: black
+    }
+
+    span.my-class {
+        color: black
+    }
+
+    a.my-class {
+        color: black
+    }
+</style>
+<h3>Sind Sie sicher folgendes Objekt zu löschen: @Html.DisplayFor(model => model.Name)?</h3>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <div>
+        <input type="submit" value="Löschen bestätigen" class="btn btn-default" />
+        |
+        <span style="color: black">@Html.ActionLink("Zurück zur Liste", "Index", null, new { @class = "my-class" })</span>
+
+    </div>
+}

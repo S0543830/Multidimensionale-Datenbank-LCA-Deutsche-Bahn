@@ -1,0 +1,171 @@
+﻿@model LifeCircleADeutscheBahn.Models.ProduktDataList
+@{
+    ViewBag.Title = "Vergleichen";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@for (int h = 0; h < Model._ListProduct.Count; h++) {
+
+@*@if(h == 0)
+{
+ @{var classDiv = "CompareDivLeft";}
+     }
+     else
+     {
+        @{var classDiv = "CompareDivRight"; }
+            }
+
+
+    <div class="@Html.Raw(classDiv)">*@
+
+    <div class="CompareDivLeft2">
+        <h2>Produkt @Html.DisplayFor(model => model._ListProduct.ElementAt(h)._Produkt.Name)</h2>
+
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <table id="tb_0">
+            <tr>
+                <th>Nutzungsdauer</th>
+                <th>Gesamtgewicht</th>
+                <th>Produkttyp</th>
+                <th>Anlagedatum</th>
+                <th>Änderungsdatum</th>
+                <th>Angelegt von</th>
+                <th>Geändert von</th>
+            </tr>
+            <tr class="center-block">
+                <td>
+                    @Html.DisplayFor(model => model._ListProduct.ElementAt(h)._Produkt.Nutzungsdauer_in_Jahre)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model._ListProduct.ElementAt(h)._Produkt.Gesamtgewicht)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model._ListProduct.ElementAt(h)._ProduktTyp.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model._ListProduct.ElementAt(h)._Produkt.DateOfCreation)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model._ListProduct.ElementAt(h)._Produkt.DateOfChanging)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model._ListProduct.ElementAt(h)._Produkt.CreatedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model._ListProduct.ElementAt(h)._Produkt.ChangedBy)
+                </td>
+            </tr>
+        </table>
+        <hr />
+        <h2>Rohstoffe des Objektes</h2>
+        <table id="tb_1">
+            <tr>
+                <th>Beschreibung:</th>
+                <th>Menge:</th>
+                <th>Einheit:</th>
+                <th>Umweltinkatoren</th>
+            </tr>
+
+            @for (int j = 0; j < Model._ListProduct.ElementAt(h)._LRohstoff.Count; j++)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(model => model._ListProduct.ElementAt(h)._Rohstoffe.FirstOrDefault(i => i.Id == Model._ListProduct.ElementAt(h)._LRohstoff.ElementAt(j).Rohstoff_Id).Name)</td>
+                    <td>@Html.DisplayFor(model => model._ListProduct.ElementAt(h)._LRohstoff.FirstOrDefault(i => i.Id == Model._ListProduct.ElementAt(h)._LRohstoff.ElementAt(j).Id).Menge)</td>
+                    <td>t</td>
+                    <td>
+                        <table>
+                            @*  @if (j == 0)*@
+                            @* { *@
+                            <tr>
+                                <th>Umweltindikator:</th>
+                                <th>Umweltindikator Wert:</th>
+                                <th>Scope:</th>
+                                <th>Menge Gesamt:</th>
+                            </tr>
+                            @* } *@
+                            @for (int i = 0; i < Model._ListProduct.ElementAt(h)._LUmweltindikatorwert.Count; i++)
+                            {
+                                if (Model._ListProduct.ElementAt(h)._LRohstoff.ElementAt(j).Id != Model._ListProduct.ElementAt(h)._LUmweltindikatorwert.ElementAt(i).Rohstoff_Id)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(model => model._ListProduct.ElementAt(h)._LIndikator.FirstOrDefault(m => m.Id == Model._ListProduct.ElementAt(h)._LUmweltindikatorwert.ElementAt(i).Umweltindikator_Id).Name)</td>
+                                        <td>@Html.DisplayFor(model => model._ListProduct.ElementAt(h)._LUmweltindikatorwert.ElementAt(i).Wert)</td>
+                                        <td>@Html.DisplayFor(model => model._ListProduct.ElementAt(h)._LIndikator.FirstOrDefault(m => m.Id == Model._ListProduct.ElementAt(h)._LUmweltindikatorwert.ElementAt(i).Umweltindikator_Id).Scope)</td>
+                                        @{var total = Model._ListProduct.ElementAt(h)._LRohstoff.FirstOrDefault(r => r.Id == Model._ListProduct.ElementAt(h)._LRohstoff.ElementAt(j).Id).Menge * Model._ListProduct.ElementAt(h)._LUmweltindikatorwert.ElementAt(i).Wert;}
+                                        <td>@Html.Raw(total.ToString())</td>
+
+                                    </tr>
+                                                }
+                                            }
+                        </table>
+                    </td>
+                </tr>
+                                            }
+        </table>
+    </div>
+                                            }
+
+  <br />
+ <div id="chartContainerNew" style="width: 75%; height: 450px"></div>
+            <script type="text/javascript">
+                window.onload = function () {
+                    var sda = @Html.Raw(Json.Encode(Model._ListProduct.ElementAt(0)._Produkt.Name));
+                    console.log(sda);
+            var chart = new CanvasJS.Chart("chartContainerNew", {
+                animationEnabled: true,
+                title: {
+                    text: "Vergleich von Umweltindikatoren"
+                },
+                axisY: {
+                    title: ""
+                },
+                data: [
+                {
+                    type: "stackedColumn",
+                    legendText: @Html.Raw(Json.Encode(Model._ListProduct.ElementAt(0)._Produkt.Name)), // "Anthracite & Bituminous",
+                    showInLegend: "true",
+                  //  indexLabel: "{label} {y}",
+                  //  yValueFormatString: "#0.#,.",
+                    indexLabelPlacement: "inside",
+                    //dataPoints: [
+                    //    { y: 111338, label: "USA" },
+                    //    { y: 49088, label: "Russia" },
+                    //    { y: 62200, label: "China" },
+                    //    { y: 90085, label: "India" },
+                    //    { y: 38600, label: "Australia" },
+                    //    { y: 48750, label: "SA" }
+                    //],
+                    dataPoints: @Html.Raw(ViewBag.DataPoints),
+
+                    //dataPoints: @Html.Raw(ViewBag.DataPoints),
+                }, {
+                    type: "stackedColumn",
+                    legendText:  @Html.Raw(Json.Encode(Model._ListProduct.ElementAt(1)._Produkt.Name)), //"SubBituminous & Lignite",
+                    showInLegend: "true",
+                   // indexLabel: "{label} {y}",
+                   // yValueFormatString: "#0.#,.",
+                  //  indexLabelFormatString: "#0.#,.",
+                    indexLabelPlacement: "inside",
+                    //dataPoints: [
+                    //    { y: 135305, label: "USA" },
+                    //    { y: 107922, label: "Russia" },
+                    //    { y: 52300, label: "China" },
+                    //    { y: 3360, label: "India" },
+                    //    { y: 39900, label: "Australia" },
+                    //    { y: 0, label: "SA" }
+                    //],
+                    dataPoints: @Html.Raw(ViewBag.DataPoints2),
+
+                    //dataPoints: @Html.Raw(ViewBag.DataPoints),
+                }
+                ]
+            });
+            chart.render();
+        };
+
+            </script>
+
+<div id="divbla" style="width: 50%; height: 50px"><br><br></div>
+     
+                                    

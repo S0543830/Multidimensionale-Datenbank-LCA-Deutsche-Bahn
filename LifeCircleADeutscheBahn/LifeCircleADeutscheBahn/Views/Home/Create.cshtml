@@ -1,0 +1,658 @@
+﻿@model LifeCircleADeutscheBahn.Models.Produkt_Typ_Rohstoff_Indikator
+@{
+    ViewBag.Title = "Objekt erstellen";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    int ReiheRohstoff = 0;
+    int ReiheIndikator = 0;
+}
+<style type="text/css">
+    .my-class {
+        color: black
+    }
+
+    span.my-class {
+        color: black
+    }
+
+    a.my-class {
+        color: black
+    }
+</style>
+@using (Html.BeginForm("Create","Home",FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h2>Allgemeines zum Objekt</h2>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <table id="tb_0">
+            <tr>
+                <th>Beschreibung:</th>
+                <th>Produkttyp:</th>
+                <th>Gesamtgewicht:</th>
+                <th>Nutzungsdauer:</th>
+            </tr>
+            <tr class="center-block">
+                <td>
+                    @Html.EditorFor(model => model._Produkt.Name, new { htmlAttributes = new { @class = "col-md-10" } })
+                    @Html.ValidationMessageFor(model => model._Produkt.Name, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    @if (Model._Typ_Id != null)
+                    {
+                        @Html.DropDownListFor(m => m._ProduktTyp.Id, new SelectList(Model._Typ_Id, "Id", "Name", "Typ"), new {id = "selectTyp"})
+                    }
+                    else
+                    {
+                        <select>
+                            <option>Kein Typ vorhanden</option>
+                        </select>
+                    }
+                    <a> </a>
+                       <input type="button" value="+" onclick="location.href='@Url.Action("AddProduktTyp","Home", new {whichView = "Create"})' " class="btn btn-default"/>
+                       <a> </a>
+                       <input id="btndeleteTyp" type="button" value="-"  class="btn btn-default" />
+                    
+
+                </td>
+                <td>
+                    @Html.EditorFor(model => model._Produkt.Gesamtgewicht, new { htmlAttributes = new { @class = "col-md-10" } })
+                </td>
+                <td>
+                    @Html.EditorFor(model => model._Produkt.Nutzungsdauer_in_Jahre, new { htmlAttributes = new { @class = "col-md-10" } })
+                </td>
+            </tr>
+        </table>
+        <hr/>
+        <h2>Rohstoffe des Objektes</h2>
+        <table id="tb_1" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th>Rohstoffe:</th>
+                <th>Umweltindikatoren:</th>
+            </tr>
+          
+            @foreach(var item in Model.ProduktRohstoff)
+            {
+                if (ReiheRohstoff == 0)
+                 {
+                     <tr class="record-template-roh" style="border: 1px solid black;">
+                         <td style="vertical-align: top">
+                             <table id="tbRoh_@ReiheRohstoff" style="display: block">
+                                 @if (ReiheRohstoff == 0)
+                                 {
+                                     <tr>
+                                         <th>Beschreibung:</th>
+                                         <th>Menge:</th>
+                                         <th>Einheit:</th>
+                                         <th style="display: none"></th>
+                                     </tr>
+                                 }
+                            
+                                 <tr>
+                                     <td>
+                                         @if (Model._Rohstoffe != null)
+                                         {
+                                             @Html.DropDownListFor(m => m.ProduktRohstoff[ReiheRohstoff].Rohstoff.Rohstoff_Id, new SelectList(Model._Rohstoffe, "Id", "Name"), new { id = "selectRohstoff" + ReiheRohstoff })
+                                         }
+                                         else
+                                         {
+                                             <select>
+                                                 <option>Keine Rohstoffe vorhanden</option>
+                                             </select>
+                                         }
+                                         <a> </a>
+                                         <input type="button" value="+" onclick="location.href = '@Url.Action("AddRohstoff", "Home", new {whichView = "Create"})' " class="btn btn-default" />
+                                         <a> </a>
+                                         <input onclick="btndeleteRohstoff(@ReiheRohstoff)" type="button" value="-" class="btn btn-default" />
+                                     </td>
+                                     <td>
+                                         @Html.EditorFor(m => m.ProduktRohstoff[ReiheRohstoff].Rohstoff.Menge, new { htmlAttributes = new { id = "rohmenge" + ReiheRohstoff } })
+                                         @Html.ValidationMessageFor(m => m.ProduktRohstoff[ReiheRohstoff].Rohstoff.Menge, "", new { @class = "text-danger" })
+                                     </td>
+                                     <td>
+                                         @if (Model._MengeEinheit != null)
+                                         {
+                                             @Html.DropDownListFor(m => m.ProduktRohstoff[ReiheRohstoff].Rohstoff.MengeEinheit_Id, new SelectList(Model._MengeEinheit, "Id", "Name"), new { id = "rohmengeeinheit_" + @ReiheRohstoff })
+                                         }
+                                         else
+                                         {
+                                             <select id="rohmengeeinheit_@ReiheRohstoff">
+                                                 <option>Keine Einheiten vorhanden</option>
+                                             </select>
+                                         }
+                                     </td>
+                                     
+                                     <td>
+                                         <button onclick="btn_RohstoffAdd(@ReiheRohstoff)" type="button" class="btn btn-default">Rohstoff hinzufügen</button>
+                                     </td>
+                                 </tr>
+
+                             </table>
+                         </td>
+                         <td style="vertical-align: top">
+                             <table  id='tb_indi_@ReiheRohstoff' border="0" cellpadding="0" cellspacing="0">
+                                 @if (ReiheRohstoff == 0)
+                                 {
+                                     <tr>
+                                         <th>Umweltindikator:</th>
+                                         <th>Umweltindikator Wert:</th>
+                                         <th style="display: none"></th>
+                                     </tr>
+                                 }
+                          
+                                 @foreach(var itemIndi in item.LRohstoffe)
+                                 {
+                                     if (ReiheIndikator == 0)
+                                     {
+                                         <tr class="record-template" style="border: 1px solid black; ">
+                                             <td style="vertical-align: top">
+                                                 @if (Model._LIndikator != null)
+                                                 {
+                                                     @Html.DropDownListFor(
+                                                         m =>  m.ProduktRohstoff[ReiheRohstoff].LRohstoffe[0].Umweltindikator_Id,
+                                                         new SelectList(Model._LIndikator, "Id", "Name"),
+                                                         new {id = "selectIndi0" }
+                                                         )
+                                                 }
+                                                 else
+                                                 {
+                                                     <select>
+                                                         <option>Keine Indikatoren vorhanden</option>
+                                                     </select>
+                                                 }
+                                                 <a> </a>
+                                                 <input type="button" value="+" onclick="location.href = '@Url.Action("AddIndikator", "Home", new {whichView = "Create"})' " class="btn btn-default"/>
+                                                 <a> </a>
+                                                 <input onclick="btndeleteIndi(0)" type="button" value="-" class="btn btn-default"/>
+                                             </td>
+                                             <td>
+                                                 @Html.EditorFor(m => m.ProduktRohstoff[ReiheRohstoff].LRohstoffe[0].Wert, new {htmlAttributes = new {id = "indiwert" + "0" } })
+                                                 @Html.ValidationMessageFor(model => model._Umweltindikatorwert.Wert, "", new {@class = "text-danger"})
+                                             </td>
+                                             <td class="addindi">
+                                                 <button type="button" class="btn btn-default" onclick="addIndi(@ReiheRohstoff)">Indikator hinzufügen</button>
+                                             </td>
+                                             
+                                         </tr>
+                                     }
+                                     <tr class="records" style="border:1px solid black">
+                                     </tr>
+                                     ReiheIndikator++;
+                                 }
+                             </table>
+                         </td>
+                     </tr>
+                 }
+
+                <tr class="records-roh" style="border: 1px solid black">
+                 
+                  
+                </tr>
+                ReiheRohstoff++;
+            }
+        </table>
+
+        
+       
+    </div>
+
+    <hr/>
+    <div>
+        <input id="btneErstelen" type="submit" value="Eingabe speichern" class="btn btn-default"/>
+        |
+        <span style="color: black">@Html.ActionLink("Zurück zur Liste", "Index",null, new { @class="my-class" })</span>
+    </div>
+    <div>
+        <p style="color: black">@Html.ActionLink("Zurück zur Liste", "Index")</p>
+    </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function() {
+                $('#btndeleteTyp').click(function() {
+                    var e = document.getElementById('selectTyp');
+                    var slc = e.options[e.selectedIndex].value;
+                    location.href = '@Html.Raw(Url.Action("DeleteProduktTyp", "Home"))' +
+                        '?name=' +
+                        slc +
+                        '&_whichView=Create';
+                });
+            }
+        );
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+                $('#btnErstellen').click(function() {
+                    var typ = document.getElementById('selectTyp');
+                    var rohstoff = document.getElementById('selectRohstoff');
+                    var indi = document.getElementById('selectIndi');
+                    var slctyp = typ.options[typ.selectedIndex].value;
+                    var slcroh = rohstoff.options[rohstoff.selectedIndex].value;
+                    var slcindi = indi.options[indi.selectedIndex].value;
+                    $.post('@Url.Action("Create", "Home", FormMethod.Post)',
+                        {
+                            typ: slctyp,
+                            roh: slcroh,
+                            indi: slcindi
+                        },
+                        function(data, status) {
+                            alert("Data: " + data + "\nStatus: " + status);
+                        }
+                    );
+                });
+            }
+        )
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+                $('#btndeleteRohstoff').click(function() {
+                    var e = document.getElementById('selectRohstoff');
+                    var slc = e.options[e.selectedIndex].value;
+                    location.href = '@Html.Raw(Url.Action("DeleteRohstoff", "Home"))' +
+                        '?name=' +
+                        slc +
+                        '&roh=Create';
+                });
+            }
+        );
+
+        function btndeleteRohstoff(j) {
+            var e = document.getElementById('selectRohstoff' + j);
+            var slc = e.options[e.selectedIndex].value;
+            location.href = '@Html.Raw(Url.Action("DeleteRohstoff", "Home"))' +
+                '?name=' +
+                slc +
+                '&roh=Create';
+        };
+    </script>
+    <script type="text/javascript">
+        function btn_RohstoffAdd(index) {
+            var countroh = $('#tb_1 >tbody >tr').length - 2;
+            var template = $('.record-template-roh').clone();
+
+            $.each(template.find('select'),
+                function() {
+                    var id = $(this).attr('id');
+                    id = id.replace('selectRohstoff0', 'selectRohstoff' + countroh);
+                    id = id.replace('rohmengeeinheit_0', 'rohmengeeinheit_' + countroh);
+                    $(this).attr('id', id);
+
+                    var exist = false;
+                    if (id.indexOf('rohmengeeinheit') !== -1) {
+                        exist = true;
+                    }
+                    if (exist === false) {
+                        var name = $(this).attr('name');
+                        name = name.replace('ProduktRohstoff[0]', 'ProduktRohstoff[' + countroh + ']');
+                        $(this).attr('name', name);
+                    }
+
+                });
+            var sd = false;
+            var e = 1;
+            $.each(template.find('button'),
+                function() {
+                    var onclick = $(this).attr('onclick');
+                    onclick = onclick.replace('btn_RohstoffAdd(0)', 'btn_Rohstoffdelete(' + countroh + ')');
+                    if (onclick.indexOf('btn_Rohstoffdelete') !== -1) {
+                        sd = true;
+                    }
+                    if (sd === true) {
+                        $(this).html('Rohstoff löschen');
+                        sd = false;
+                    }
+                    
+                    if (onclick.indexOf('deleteIndi') !== -1) {
+                        onclick = onclick.replace(onclick, 'deleteIndi(' + countroh + ',' + e + ')');
+                        e++;
+                    }
+                    onclick = onclick.replace('addIndi(0)', 'addIndi(' + countroh + ')');
+
+                    $(this).attr('onclick', onclick);
+                });
+            e = 0;
+            $.each(template.find('input[type=button]'),
+                function() {
+                    var onclick = $(this).attr('onclick');
+                    onclick = onclick.replace('btndeleteRohstoff(0)', 'btndeleteRohstoff(' + countroh + ')');
+                    $(this).attr('onclick', onclick);
+                });
+            $.each(template.find('table'),
+                function() {
+                    var id = $(this).attr('id');
+                    var exist = false;
+                    if (id.indexOf('tb_indi_0') !== -1) {
+                        exist = true;
+                    }
+                    if (exist === true) {
+                        id = id.replace('tb_indi_0', 'tb_indi_' + countroh);
+                        $(this).attr('id', id);
+                    }
+                    var existr = false;
+                    if (id.indexOf('tbRoh') !== -1) {
+                        existr = true;
+                    }
+                    if (existr === true) {
+                        id = id.replace('tbRoh_0', 'tbRoh_' + countroh);
+                        $(this).attr('id', id);
+                    }
+                });
+
+            $.each(template.find('input[type=number]'),
+                function() {
+                    var id = $(this).attr('id');
+                    id = id.replace('indiwert0', 'indiwert' + countroh);
+                    $(this).attr('id', id);
+                    var name = $(this).attr('name');
+                    name = name.replace('ProduktRohstoff[0]', 'ProduktRohstoff[' + countroh + ']');
+                    $(this).attr('name', name);
+                });
+
+            $.each(template.find('span'),
+                function() {
+                    var id = $(this).attr('data-valmsg-for');
+                    id = id.replace('ProduktRohstoff[0]', 'ProduktRohstoff[' + countroh + ']');
+                    $(this).attr('data-valmsg-for', id);
+                });
+
+            $.each(template.find('input[type=text]'),
+                function() {
+                    var id = $(this).attr('id');
+                    id = id.replace('rohmenge0', 'rohmenge' + countroh);
+                    $(this).attr('id', id);
+                    var name = $(this).attr('name');
+                    name = name.replace('ProduktRohstoff[0]', 'ProduktRohstoff[' + countroh + ']');
+                    $(this).attr('name', name);
+                }
+            );
+
+
+            $('#tb_1 >tbody >tr:last').after(template);
+            template.removeClass('record-template-roh')
+                .addClass('records-roh').show();
+        };
+
+        function btn_Rohstoffdelete(reihe) {
+            var ie = reihe + 2;
+            var template = $('#tb_1 >tbody >tr');
+            $('#tb_1 >tbody >tr:eq(' + ie + ')').remove();
+            //Suche für jede Reihe sein Index und setze seine ein
+            var e = 0;
+            var i = 1;
+            var menge = 0;
+            var einheit = 0;
+            var rohstof = 0;
+            var deleteroh = 0;
+            $.each(template.find('table'),
+                function() {
+                    var id = $(this).attr('id');
+                    if ((id.indexOf('tb_indi_') !== -1) && (id.indexOf('tb_indi_template') === -1)) {
+                        id = id.replace(id, 'tb_indi_' + e);
+                        $(this).attr('id', id);
+                        var s = 0;
+                        $.each($(this).find('select'),
+                            function() {
+                                var name = $(this).attr('name');
+                                if (name.indexOf('ProduktRohstoff') !== -1) {
+                                    name = name.replace(name,
+                                        'ProduktRohstoff[' + e + ']' + '.LRohstoffe[' + s + '].Umweltindikator_Id');
+                                    $(this).attr('name', name);
+                                    s++;
+                                }
+                            });
+                        s = 0;
+                        $.each($(this).find('input[type=number]'),
+                            function() {
+                                var name = $(this).attr('name');
+                                if (name.indexOf('ProduktRohstoff') !== -1) {
+                                    name = name.replace(name,
+                                        'ProduktRohstoff[' + e + ']' + '.LRohstoffe[' + s + '].Wert');
+                                    $(this).attr('name', name);
+                                    s++;
+                                }
+                            });
+                        s = 1;
+                        $.each($(this).find('button'),
+                            function() {
+                                var onclick = $(this).attr('onclick');
+                                if (onclick.indexOf('addIndi') !== -1) {
+                                    onclick = onclick.replace(onclick, 'addIndi(' + e + ')');
+                                    $(this).attr('onclick', onclick);
+                                }
+                                if (onclick.indexOf('deleteIndi') !== -1) {
+                                    onclick = onclick.replace(onclick, 'deleteIndi(' + e + ',' + s + ')');
+                                    $(this).attr('onclick', onclick);
+                                    s++;
+                                }
+                            });
+                        e++;
+
+                    }
+
+
+                    if (id.indexOf('tbRoh') !== -1) {
+                        $.each($(this).find('button'),
+                            function() {
+                                var onclick = $(this).attr('onclick');
+
+                                var existas = false;
+                                if (onclick.indexOf('btn_Rohstoffdelete') !== -1) {
+                                    existas = true;
+                                }
+                                if (existas === true) {
+                                    onclick = onclick.replace(onclick, 'btn_Rohstoffdelete(' + i + ')');
+                                    $(this).attr('onclick', onclick);
+                                    i++;
+                                };
+
+                            });
+
+                        $.each($(this).find('button'),
+                            function() {
+                                var onclick = $(this).attr('onclick');
+
+                                var existas = false;
+                                if (onclick.indexOf('btndeleteRohstoff') !== -1) {
+                                    existas = true;
+                                }
+                                if (existas === true) {
+                                    onclick = onclick.replace(onclick, 'btndeleteRohstoff(' + deleteroh + ')');
+                                    $(this).attr('onclick', onclick);
+                                    deleteroh++;
+                                };
+
+                            });
+                        $.each($(this).find('select'),
+                            function () {
+                                var name = $(this).attr('name');
+
+                                var existas = false;
+                                if (name.indexOf('Rohstoff.Rohstoff_Id') !== -1) {
+                                    existas = true;
+                                }
+                                if (existas === true) {
+                                    name = name.replace(name, 'ProduktRohstoff['+rohstof+'].Rohstoff.Rohstoff_Id');
+                                    $(this).attr('name', name);
+                                    rohstof++;
+                                };
+
+                            });
+                        $.each($(this).find('select'),
+                            function () {
+                                var name = $(this).attr('name');
+
+                                var existas = false;
+                                if (name.indexOf('Rohstoff.MengeEinheit_Id') !== -1) {
+                                    existas = true;
+                                }
+                                if (existas === true) {
+                                    name = name.replace(name, 'ProduktRohstoff[' + einheit + '].Rohstoff.MengeEinheit_Id');
+                                    $(this).attr('name', name);
+                                    einheit++;
+                                };
+
+                            }); 
+                        $.each($(this).find('input[type=text]'),
+                            function () {
+                                var name = $(this).attr('name');
+
+                                var existas = false;
+                                if (name.indexOf('Rohstoff.Menge') !== -1) {
+                                    existas = true;
+                                }
+                                if (existas === true) {
+                                    name = name.replace(name, 'ProduktRohstoff[' + menge + '].Rohstoff.Menge');
+                                    $(this).attr('name', name);
+                                    menge++;
+                                };
+
+                            });
+                       
+                    }
+                });
+           
+
+        };
+
+        function addIndi(e) {
+
+            var count = $('#tb_indi_' + e + ' >tbody >tr').length - 2;
+            var template = $('#tb_indi_0 .record-template').clone();
+            console.log(template);
+
+            $.each(template.find('select,input[type=number]'),
+                function() {
+                    var id = $(this).attr('id');
+                    id = id.replace('selectIndi0', 'selectIndi' + count);
+                    id = id.replace('indiwert0', 'indiwert' + count);
+                    $(this).attr('id', id);
+                    var name = $(this).attr('name');
+                    name = name.replace('LRohstoffe[0]', 'LRohstoffe[' + count + ']');
+                    name = name.replace('ProduktRohstoff[0]', 'ProduktRohstoff[' + e + ']');
+                    $(this).attr('name', name);
+
+                });
+
+            $.each(template.find('input[type=button]'),
+                function() {
+                    var onclick = $(this).attr('onclick');
+                    onclick = onclick.replace('btndeleteIndi(0)', 'btndeleteIndi(' + count + ')');
+                    $(this).attr('onclick', onclick);
+                });
+
+            $.each(template.find('button'),
+                function() {
+                    var onclick = $(this).attr('onclick');
+                    onclick = onclick.replace('addIndi(0)', 'deleteIndi(' + e + ',' + count + ')');
+
+                    $(this).attr('onclick', onclick);
+                    console.log($(this).html);
+                    $(this).html('Indikator löschen');
+                });
+
+
+            $('#tb_indi_' + e).append(template);
+            template.removeClass('record-template')
+                .addClass('records').show();
+
+
+        };
+
+        function deleteIndi(reihe, index) {
+
+            var template = $('#tb_indi_' + reihe + ' tr.records');
+            $('#tb_indi_' + reihe + ' tr').eq(index + 2).remove();
+            //Suche für jede Reihe sein Index und setze seine 
+            var e = 1;
+            $.each(template.find('select'),
+                function () {
+                    console.log($(this));
+                    var id = $(this).attr('id');
+                    var name = $(this).attr('name');
+                 
+                 
+                        id = id.replace(id, 'selectIndi' + e);
+                        name = name.replace(name, 'ProduktRohstoff[' + reihe + '].LRohstoffe[' + e + '].Umweltindikator_Id');
+                     
+                    $(this).attr('id', id);
+                    $(this).attr('name', name);
+                    e++;
+                });
+            e = 1;
+            $.each(template.find('input[type=number]'),
+                function() {
+
+                    var id = $(this).attr('id');
+                    id = id.replace(id, 'indiwert' + e);
+
+                    $(this).attr('id', id);
+
+                    var name = $(this).attr('name');
+                    name = name.replace(name, 'ProduktRohstoff[' + reihe + '].LRohstoffe[' + e + '].Wert');
+                    $(this).attr('name', name);
+
+                    e++;
+                });
+            e = 1;
+            $.each(template.find('button'),
+                function() {
+
+                    var onclick = $(this).attr('onclick');
+                    var exist = false;
+                    if (onclick.indexOf('deleteIndi') !== -1) {
+                        exist = true;
+                    }
+                    if (exist === true) {
+                        onclick = onclick.replace(onclick, 'deleteIndi(' + reihe + ',' + e + ')');
+                        $(this).attr('onclick', onclick);
+                    }
+                    e++;
+                });
+            e = 1;
+            $.each(template.find('input[type=button]'),
+                function () {
+
+                    var onclick = $(this).attr('onclick');
+                    var exist = false;
+                    if (onclick.indexOf('btndeleteIndi') !== -1) {
+                        exist = true;
+                    }
+                    if (exist === true) {
+                        onclick = onclick.replace(onclick, 'btndeleteIndi('+ e + ')');
+                        $(this).attr('onclick', onclick);
+                        e++;
+                    }
+                    
+                });
+        };
+
+
+        $(document).ready(function() {
+                $('#btndeleteIndi').click(function() {
+                    var e = document.getElementById('selectIndi');
+                    var slc = e.options[e.selectedIndex].value;
+                    location.href = '@Html.Raw(Url.Action("DeleteIndikator", "Home"))' +
+                        '?name=' +
+                        slc +
+                        '&indi=Create';
+                });
+            }
+        );
+
+        function btndeleteIndi(i) {
+            var e = document.getElementById('selectIndi' + i);
+            var slc = e.options[e.selectedIndex].value;
+            location.href = '@Html.Raw(Url.Action("DeleteIndikator", "Home"))' +
+                '?name=' +
+                slc +
+                '&indi=Create';
+        };
+
+    </script>
+}
+}

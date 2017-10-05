@@ -1,0 +1,29 @@
+﻿@model LifeCircleADeutscheBahn.Models.RohstoffViewViewModel
+@{
+    ViewBag.Title = "Löschen eines Rohstoffes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .my-class {
+        color: black
+    }
+
+    span.my-class {
+        color: black
+    }
+
+    a.my-class {
+        color: black
+    }
+</style>
+
+<h3>Sind Sie sicher folgenden Rohstoff löschen zu wollen: @Html.DisplayFor(model => model._Rohstoffe.Name)?</h3>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div>
+        <input type="submit" value="Löschen bestätigen" class="btn btn-default"  />
+        |
+        <span style="color: black">@Html.ActionLink("Zurück", Model._View, null, new { @class = "my-class" })</span>
+</div>
+}

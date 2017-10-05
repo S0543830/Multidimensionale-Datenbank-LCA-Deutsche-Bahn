@@ -1,0 +1,48 @@
+﻿@model LifeCircleADeutscheBahn.Models.IndikatorViewViewModel
+@{
+    ViewBag.Title = "Umweltindikator hinzufügen";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">.my-class {color: black}
+ span.my-class {color: black}
+ a.my-class {color: black}
+</style>
+
+@using (Html.BeginForm("AddIndikator","Home",FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+    <table id="tb_0">
+        <tr>
+            <th>Name:</th>
+            <th>Scope:</th>
+        </tr>
+        <tr class="center-block">
+            <td>
+                @Html.EditorFor(model => model._Umweltindikator.Name, new {htmlAttributes = new {@class = "col-md-10"}})
+                @Html.ValidationMessageFor(model => model._Umweltindikator.Name, "", new {@class = "text-danger"})
+            </td>
+            <td>
+                @Html.EditorFor(model => model._Umweltindikator.Scope, new {htmlAttributes = new {@class = "col-md-10"}})
+            </td>
+            @if (Model._View != "")
+            {
+                @Html.HiddenFor(model => model._View)
+            }
+        </tr>
+    </table>
+    <br/>
+    <div>
+    <input type="submit" value="Erstellen" class="btn btn-default"/>
+        |
+        <span style="color: black">@Html.ActionLink("Zurück", Model._View,null, new { @class="my-class" })</span>
+    </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        
+    </script>
+}
+}

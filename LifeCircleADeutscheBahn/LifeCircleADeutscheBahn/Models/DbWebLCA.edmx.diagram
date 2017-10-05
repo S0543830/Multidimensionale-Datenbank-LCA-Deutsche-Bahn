@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5c5cc74f52fa4be5be4afdd07c816636" Name="Diagram1">
+        <EntityTypeShape EntityType="DbWebLCAModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbWebLCAModel.AspNetRole" Width="1.5" PointX="5.75" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbWebLCAModel.AspNetUserClaim" Width="1.5" PointX="10.25" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbWebLCAModel.AspNetUserLogin" Width="1.5" PointX="10.25" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbWebLCAModel.AspNetUser" Width="1.5" PointX="8" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbWebLCAModel.MengeEinheit" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbWebLCAModel.Produkt" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbWebLCAModel.ProduktTyp" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbWebLCAModel.Rohstoff" Width="1.5" PointX="5.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbWebLCAModel.Rohstoffe" Width="1.5" PointX="3" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbWebLCAModel.Umweltindikator" Width="1.5" PointX="8.25" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbWebLCAModel.Umweltindikatorwert" Width="1.5" PointX="10.5" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbWebLCAModel.EndOfLifeData" Width="1.5" PointX="7.5" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbWebLCAModel.ProduktRohstoffUmweltindikator" Width="1.5" PointX="10.5" PointY="4.875" IsExpanded="true" />
+        <AssociationConnector Association="DbWebLCAModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="DbWebLCAModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="DbWebLCAModel.FK_dbo_Rohstoff_MengeEinheit_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="DbWebLCAModel.FK_dbo_EndOfLifeData_Produkt_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="DbWebLCAModel.FK_dbo_Produkt_Typ_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="DbWebLCAModel.FK_dbo_ProduktRohstoffUmweltindikator_Produkt_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="DbWebLCAModel.FK_dbo_Rohstoff_Produkt_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="DbWebLCAModel.FK_dbo_EndOfLifeData_Rohstoff_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="DbWebLCAModel.FK_dbo_ProduktRohstoffUmweltindikator_Rohstoff_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="DbWebLCAModel.FK_dbo_Rohstoff_Rohstoff_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="DbWebLCAModel.FK_dbo_Umweltindikatorwert_Rohstoff_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="DbWebLCAModel.FK_dbo_Umweltindikatorwert_Umweltindikator_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="DbWebLCAModel.AspNetUserRoles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

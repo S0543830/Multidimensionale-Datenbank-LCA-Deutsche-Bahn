@@ -1,0 +1,424 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DbWebLCAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+    <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+    <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetRoles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaims">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="ClaimType" Type="nvarchar(max)" />
+    <Property Name="ClaimValue" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogins">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUserRoles">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="256" />
+    <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+    <Property Name="PasswordHash" Type="nvarchar(max)" />
+    <Property Name="SecurityStamp" Type="nvarchar(max)" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" />
+    <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="datetime" />
+    <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+  </EntityType>
+  <!--Während der Generierung sind Fehler aufgetreten:
+Warnung 6002: Für Tabelle/Sicht 'FBC0BBF6F30CB189CA21C677FF87BA6E_ECTS\LIFECIRCLEADEUTSCHEBAHN\LIFECIRCLEADEUTSCHEBAHN\APP_DATA\ASPNET-LCA-WEB-20170626054040.MDF.dbo.EndOfLifeData' ist kein Primärschlüssel definiert. Der Schlüssel wurde abgeleitet, und die Definition wurde als schreibgeschützte Tabelle/Sicht erstellt.-->
+  <EntityType Name="EndOfLifeData">
+    <Key>
+      <PropertyRef Name="Produkt_Id" />
+      <PropertyRef Name="Rohstoff_Id" />
+    </Key>
+    <Property Name="Produkt_Id" Type="int" Nullable="false" />
+    <Property Name="Rohstoff_Id" Type="int" Nullable="false" />
+    <Property Name="Recyclingfaehig" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="Entsorgungskosten" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="Recyclingerloese" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="WeiterverkaufPM" Type="numeric" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="MengeEinheit">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Produkt">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Menge" Type="int" />
+    <Property Name="Nutzungsdauer in Jahre" Type="float" />
+    <Property Name="Gesamtgewicht" Type="float" />
+    <Property Name="DateOfCreation" Type="datetime" Nullable="false" />
+    <Property Name="DateOfChanging" Type="datetime" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="ChangedBy" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Typ_Id" Type="int" />
+    <Property Name="Produktionsmittelkosten" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="Energieverbrauch in GJ" Type="float" />
+    <Property Name="CO2 Ausstoss t/a" Type="float" />
+    <Property Name="Energiekosten pro GJ" Type="float" />
+  </EntityType>
+  <!--Während der Generierung sind Fehler aufgetreten:
+Warnung 6002: Für Tabelle/Sicht 'FBC0BBF6F30CB189CA21C677FF87BA6E_ECTS\LIFECIRCLEADEUTSCHEBAHN\LIFECIRCLEADEUTSCHEBAHN\APP_DATA\ASPNET-LCA-WEB-20170626054040.MDF.dbo.ProduktRohstoffUmweltindikator' ist kein Primärschlüssel definiert. Der Schlüssel wurde abgeleitet, und die Definition wurde als schreibgeschützte Tabelle/Sicht erstellt.-->
+  <EntityType Name="ProduktRohstoffUmweltindikator">
+    <Key>
+      <PropertyRef Name="Produkt_Id" />
+      <PropertyRef Name="Rohstoff_Id" />
+      <PropertyRef Name="Phase" />
+    </Key>
+    <Property Name="Produkt_Id" Type="int" Nullable="false" />
+    <Property Name="Rohstoff_Id" Type="int" Nullable="false" />
+    <Property Name="Phase" Type="int" Nullable="false" />
+    <Property Name="Rohstoff Menge in t" Type="numeric" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="ProduktTyp">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nchar" MaxLength="50" Nullable="false" />
+    <Property Name="Typ" Type="nchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Rohstoff">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Rohstoff_Id" Type="int" Nullable="false" />
+    <Property Name="Menge" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="Produkt_Id" Type="int" />
+    <Property Name="MengeEinheit_Id" Type="int" />
+  </EntityType>
+  <EntityType Name="Rohstoffe">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Umweltindikator">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nchar" MaxLength="50" Nullable="false" />
+    <Property Name="Scope" Type="int" />
+  </EntityType>
+  <EntityType Name="Umweltindikatorwert">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Umweltindikator_Id" Type="int" Nullable="false" />
+    <Property Name="Wert" Type="int" />
+    <Property Name="Rohstoff_Id" Type="int" />
+  </EntityType>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaims">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogins">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+    <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetRoles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserRoles">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserRoles">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_EndOfLifeData_Produkt_Id">
+    <End Role="Produkt" Type="Self.Produkt" Multiplicity="1" />
+    <End Role="EndOfLifeData" Type="Self.EndOfLifeData" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Produkt">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EndOfLifeData">
+        <PropertyRef Name="Produkt_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_EndOfLifeData_Rohstoff_Id">
+    <End Role="Rohstoff" Type="Self.Rohstoff" Multiplicity="1" />
+    <End Role="EndOfLifeData" Type="Self.EndOfLifeData" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rohstoff">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EndOfLifeData">
+        <PropertyRef Name="Rohstoff_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Produkt_Typ_Id">
+    <End Role="ProduktTyp" Type="Self.ProduktTyp" Multiplicity="0..1" />
+    <End Role="Produkt" Type="Self.Produkt" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProduktTyp">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Produkt">
+        <PropertyRef Name="Typ_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_ProduktRohstoffUmweltindikator_Produkt_Id">
+    <End Role="Produkt" Type="Self.Produkt" Multiplicity="1" />
+    <End Role="ProduktRohstoffUmweltindikator" Type="Self.ProduktRohstoffUmweltindikator" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Produkt">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProduktRohstoffUmweltindikator">
+        <PropertyRef Name="Produkt_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_ProduktRohstoffUmweltindikator_Rohstoff_Id">
+    <End Role="Rohstoff" Type="Self.Rohstoff" Multiplicity="1" />
+    <End Role="ProduktRohstoffUmweltindikator" Type="Self.ProduktRohstoffUmweltindikator" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rohstoff">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProduktRohstoffUmweltindikator">
+        <PropertyRef Name="Rohstoff_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Rohstoff_MengeEinheit_Id">
+    <End Role="MengeEinheit" Type="Self.MengeEinheit" Multiplicity="0..1" />
+    <End Role="Rohstoff" Type="Self.Rohstoff" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MengeEinheit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rohstoff">
+        <PropertyRef Name="MengeEinheit_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Rohstoff_Produkt_Id">
+    <End Role="Produkt" Type="Self.Produkt" Multiplicity="0..1" />
+    <End Role="Rohstoff" Type="Self.Rohstoff" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Produkt">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rohstoff">
+        <PropertyRef Name="Produkt_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Rohstoff_Rohstoff_Id">
+    <End Role="Rohstoffe" Type="Self.Rohstoffe" Multiplicity="1" />
+    <End Role="Rohstoff" Type="Self.Rohstoff" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rohstoffe">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rohstoff">
+        <PropertyRef Name="Rohstoff_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Umweltindikatorwert_Rohstoff_Id">
+    <End Role="Rohstoff" Type="Self.Rohstoff" Multiplicity="0..1" />
+    <End Role="Umweltindikatorwert" Type="Self.Umweltindikatorwert" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rohstoff">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Umweltindikatorwert">
+        <PropertyRef Name="Rohstoff_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Umweltindikatorwert_Umweltindikator_Id">
+    <End Role="Umweltindikator" Type="Self.Umweltindikator" Multiplicity="1" />
+    <End Role="Umweltindikatorwert" Type="Self.Umweltindikatorwert" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Umweltindikator">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Umweltindikatorwert">
+        <PropertyRef Name="Umweltindikator_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DbWebLCAModelStoreContainer">
+    <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MengeEinheit" EntityType="Self.MengeEinheit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Produkt" EntityType="Self.Produkt" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProduktTyp" EntityType="Self.ProduktTyp" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Rohstoff" EntityType="Self.Rohstoff" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Rohstoffe" EntityType="Self.Rohstoffe" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Umweltindikator" EntityType="Self.Umweltindikator" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Umweltindikatorwert" EntityType="Self.Umweltindikatorwert" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EndOfLifeData" EntityType="Self.EndOfLifeData" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [EndOfLifeData].[Produkt_Id] AS [Produkt_Id], 
+    [EndOfLifeData].[Rohstoff_Id] AS [Rohstoff_Id], 
+    [EndOfLifeData].[Recyclingfaehig] AS [Recyclingfaehig], 
+    [EndOfLifeData].[Entsorgungskosten] AS [Entsorgungskosten], 
+    [EndOfLifeData].[Recyclingerloese] AS [Recyclingerloese], 
+    [EndOfLifeData].[WeiterverkaufPM] AS [WeiterverkaufPM]
+    FROM [dbo].[EndOfLifeData] AS [EndOfLifeData]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="ProduktRohstoffUmweltindikator" EntityType="Self.ProduktRohstoffUmweltindikator" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [ProduktRohstoffUmweltindikator].[Produkt_Id] AS [Produkt_Id], 
+    [ProduktRohstoffUmweltindikator].[Rohstoff_Id] AS [Rohstoff_Id], 
+    [ProduktRohstoffUmweltindikator].[Phase] AS [Phase], 
+    [ProduktRohstoffUmweltindikator].[Rohstoff Menge in t] AS [Rohstoff Menge in t]
+    FROM [dbo].[ProduktRohstoffUmweltindikator] AS [ProduktRohstoffUmweltindikator]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+      <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_EndOfLifeData_Produkt_Id" Association="Self.FK_dbo_EndOfLifeData_Produkt_Id">
+      <End Role="Produkt" EntitySet="Produkt" />
+      <End Role="EndOfLifeData" EntitySet="EndOfLifeData" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_EndOfLifeData_Rohstoff_Id" Association="Self.FK_dbo_EndOfLifeData_Rohstoff_Id">
+      <End Role="Rohstoff" EntitySet="Rohstoff" />
+      <End Role="EndOfLifeData" EntitySet="EndOfLifeData" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Produkt_Typ_Id" Association="Self.FK_dbo_Produkt_Typ_Id">
+      <End Role="ProduktTyp" EntitySet="ProduktTyp" />
+      <End Role="Produkt" EntitySet="Produkt" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_ProduktRohstoffUmweltindikator_Produkt_Id" Association="Self.FK_dbo_ProduktRohstoffUmweltindikator_Produkt_Id">
+      <End Role="Produkt" EntitySet="Produkt" />
+      <End Role="ProduktRohstoffUmweltindikator" EntitySet="ProduktRohstoffUmweltindikator" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_ProduktRohstoffUmweltindikator_Rohstoff_Id" Association="Self.FK_dbo_ProduktRohstoffUmweltindikator_Rohstoff_Id">
+      <End Role="Rohstoff" EntitySet="Rohstoff" />
+      <End Role="ProduktRohstoffUmweltindikator" EntitySet="ProduktRohstoffUmweltindikator" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Rohstoff_MengeEinheit_Id" Association="Self.FK_dbo_Rohstoff_MengeEinheit_Id">
+      <End Role="MengeEinheit" EntitySet="MengeEinheit" />
+      <End Role="Rohstoff" EntitySet="Rohstoff" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Rohstoff_Produkt_Id" Association="Self.FK_dbo_Rohstoff_Produkt_Id">
+      <End Role="Produkt" EntitySet="Produkt" />
+      <End Role="Rohstoff" EntitySet="Rohstoff" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Rohstoff_Rohstoff_Id" Association="Self.FK_dbo_Rohstoff_Rohstoff_Id">
+      <End Role="Rohstoffe" EntitySet="Rohstoffe" />
+      <End Role="Rohstoff" EntitySet="Rohstoff" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Umweltindikatorwert_Rohstoff_Id" Association="Self.FK_dbo_Umweltindikatorwert_Rohstoff_Id">
+      <End Role="Rohstoff" EntitySet="Rohstoff" />
+      <End Role="Umweltindikatorwert" EntitySet="Umweltindikatorwert" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Umweltindikatorwert_Umweltindikator_Id" Association="Self.FK_dbo_Umweltindikatorwert_Umweltindikator_Id">
+      <End Role="Umweltindikator" EntitySet="Umweltindikator" />
+      <End Role="Umweltindikatorwert" EntitySet="Umweltindikatorwert" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

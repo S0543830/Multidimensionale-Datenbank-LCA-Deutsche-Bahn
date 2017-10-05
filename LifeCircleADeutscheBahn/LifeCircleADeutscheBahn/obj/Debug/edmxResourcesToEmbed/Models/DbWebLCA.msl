@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DbWebLCAModelStoreContainer" CdmEntityContainer="DbWebLcaEntities">
+    <EntitySetMapping Name="C__MigrationHistory">
+      <EntityTypeMapping TypeName="DbWebLCAModel.C__MigrationHistory">
+        <MappingFragment StoreEntitySet="__MigrationHistory">
+          <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+          <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetRoles">
+      <EntityTypeMapping TypeName="DbWebLCAModel.AspNetRole">
+        <MappingFragment StoreEntitySet="AspNetRoles">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserClaims">
+      <EntityTypeMapping TypeName="DbWebLCAModel.AspNetUserClaim">
+        <MappingFragment StoreEntitySet="AspNetUserClaims">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+          <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserLogins">
+      <EntityTypeMapping TypeName="DbWebLCAModel.AspNetUserLogin">
+        <MappingFragment StoreEntitySet="AspNetUserLogins">
+          <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+          <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUsers">
+      <EntityTypeMapping TypeName="DbWebLCAModel.AspNetUser">
+        <MappingFragment StoreEntitySet="AspNetUsers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+          <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+          <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+          <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+          <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MengeEinheits">
+      <EntityTypeMapping TypeName="DbWebLCAModel.MengeEinheit">
+        <MappingFragment StoreEntitySet="MengeEinheit">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Produkts">
+      <EntityTypeMapping TypeName="DbWebLCAModel.Produkt">
+        <MappingFragment StoreEntitySet="Produkt">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Menge" ColumnName="Menge" />
+          <ScalarProperty Name="Nutzungsdauer_in_Jahre" ColumnName="Nutzungsdauer in Jahre" />
+          <ScalarProperty Name="Gesamtgewicht" ColumnName="Gesamtgewicht" />
+          <ScalarProperty Name="DateOfCreation" ColumnName="DateOfCreation" />
+          <ScalarProperty Name="DateOfChanging" ColumnName="DateOfChanging" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+          <ScalarProperty Name="Typ_Id" ColumnName="Typ_Id" />
+          <ScalarProperty Name="Produktionsmittelkosten" ColumnName="Produktionsmittelkosten" />
+          <ScalarProperty Name="Energieverbrauch_in_GJ" ColumnName="Energieverbrauch in GJ" />
+          <ScalarProperty Name="CO2_Ausstoss_t_a" ColumnName="CO2 Ausstoss t/a" />
+          <ScalarProperty Name="Energiekosten_pro_GJ" ColumnName="Energiekosten pro GJ" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProduktTyps">
+      <EntityTypeMapping TypeName="DbWebLCAModel.ProduktTyp">
+        <MappingFragment StoreEntitySet="ProduktTyp">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Typ" ColumnName="Typ" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rohstoffs">
+      <EntityTypeMapping TypeName="DbWebLCAModel.Rohstoff">
+        <MappingFragment StoreEntitySet="Rohstoff">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Rohstoff_Id" ColumnName="Rohstoff_Id" />
+          <ScalarProperty Name="Menge" ColumnName="Menge" />
+          <ScalarProperty Name="Produkt_Id" ColumnName="Produkt_Id" />
+          <ScalarProperty Name="MengeEinheit_Id" ColumnName="MengeEinheit_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rohstoffes">
+      <EntityTypeMapping TypeName="DbWebLCAModel.Rohstoffe">
+        <MappingFragment StoreEntitySet="Rohstoffe">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Umweltindikators">
+      <EntityTypeMapping TypeName="DbWebLCAModel.Umweltindikator">
+        <MappingFragment StoreEntitySet="Umweltindikator">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Scope" ColumnName="Scope" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Umweltindikatorwerts">
+      <EntityTypeMapping TypeName="DbWebLCAModel.Umweltindikatorwert">
+        <MappingFragment StoreEntitySet="Umweltindikatorwert">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Umweltindikator_Id" ColumnName="Umweltindikator_Id" />
+          <ScalarProperty Name="Wert" ColumnName="Wert" />
+          <ScalarProperty Name="Rohstoff_Id" ColumnName="Rohstoff_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EndOfLifeDatas">
+      <EntityTypeMapping TypeName="DbWebLCAModel.EndOfLifeData">
+        <MappingFragment StoreEntitySet="EndOfLifeData">
+          <ScalarProperty Name="Produkt_Id" ColumnName="Produkt_Id" />
+          <ScalarProperty Name="Rohstoff_Id" ColumnName="Rohstoff_Id" />
+          <ScalarProperty Name="Recyclingfaehig" ColumnName="Recyclingfaehig" />
+          <ScalarProperty Name="Entsorgungskosten" ColumnName="Entsorgungskosten" />
+          <ScalarProperty Name="Recyclingerloese" ColumnName="Recyclingerloese" />
+          <ScalarProperty Name="WeiterverkaufPM" ColumnName="WeiterverkaufPM" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProduktRohstoffUmweltindikators">
+      <EntityTypeMapping TypeName="DbWebLCAModel.ProduktRohstoffUmweltindikator">
+        <MappingFragment StoreEntitySet="ProduktRohstoffUmweltindikator">
+          <ScalarProperty Name="Produkt_Id" ColumnName="Produkt_Id" />
+          <ScalarProperty Name="Rohstoff_Id" ColumnName="Rohstoff_Id" />
+          <ScalarProperty Name="Phase" ColumnName="Phase" />
+          <ScalarProperty Name="Rohstoff_Menge_in_t" ColumnName="Rohstoff Menge in t" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="AspNetUserRoles" TypeName="DbWebLCAModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+      <EndProperty Name="AspNetRoles">
+        <ScalarProperty Name="Id" ColumnName="RoleId" />
+      </EndProperty>
+      <EndProperty Name="AspNetUsers">
+        <ScalarProperty Name="Id" ColumnName="UserId" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

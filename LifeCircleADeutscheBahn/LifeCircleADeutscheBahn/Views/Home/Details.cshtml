@@ -1,0 +1,171 @@
+﻿@model LifeCircleADeutscheBahn.Models.Produkt_Typ_Rohstoff_Indikator
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Produkt @Html.DisplayFor(model => model._Produkt.Name)</h2>
+@using (Html.BeginForm())
+{ 
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <table id="tb_0">
+            <tr>
+                <th>Nutzungsdauer:</th>
+                <th>Gesamtgewicht:</th>
+                <th>Produkttyp:</th>
+                <th>Anlagedatum:</th>
+                <th>Änderungsdatum:</th>
+                <th>Angelegt von:</th>
+                <th>Geändert von:</th>
+            </tr>
+            <tr class="center-block">
+                <td>
+                    @Html.DisplayFor(model => model._Produkt.Nutzungsdauer_in_Jahre)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model._Produkt.Gesamtgewicht)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model._ProduktTyp.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model._Produkt.DateOfCreation)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model._Produkt.DateOfChanging)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model._Produkt.CreatedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model._Produkt.ChangedBy)
+                </td>
+            </tr>
+        </table>
+        <hr />
+        <h2>Rohstoffe des Objektes</h2>
+        <table id="tb_1">
+            <tr>
+                <th>Beschreibung:</th>
+                <th>Menge:</th>
+                <th>Einheit:</th>
+                <th>Umweltinkatoren</th>
+            </tr>
+        
+            @for (int j = 0; j < Model._LRohstoff.Count; j++)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(model => model._Rohstoffe.FirstOrDefault(i => i.Id == Model._LRohstoff.ElementAt(j).Rohstoff_Id).Name)</td>
+                    <td>@Html.DisplayFor(model => model._LRohstoff.FirstOrDefault(i => i.Id == Model._LRohstoff.ElementAt(j).Id).Menge)</td>
+                    <td>t</td>
+                    <td>
+                        <table>
+                            @*  @if (j == 0)*@
+                            @* { *@
+                            <tr>
+                                <th>Umweltindikator:</th>
+                                <th>Umweltindikator Wert:</th>
+                                <th>Scope:</th>
+                                <th>Menge Gesamt:</th>
+                            </tr>
+                            @* } *@
+                            @for (int i = 0; i < Model._LUmweltindikatorwert.Count; i++)
+                            {
+                                if (Model._LRohstoff.ElementAt(j).Id == Model._LUmweltindikatorwert.ElementAt(i).Rohstoff_Id)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(model => model._LIndikator.FirstOrDefault(m => m.Id == Model._LUmweltindikatorwert.ElementAt(i).Umweltindikator_Id).Name)</td>
+                                        <td>@Html.DisplayFor(model => model._LUmweltindikatorwert.ElementAt(i).Wert)</td>
+                                        <td>@Html.DisplayFor(model => model._LIndikator.FirstOrDefault(m => m.Id == Model._LUmweltindikatorwert.ElementAt(i).Umweltindikator_Id).Scope)</td>
+                                        @{var total = Model._LRohstoff.FirstOrDefault(r => r.Id == Model._LRohstoff.ElementAt(j).Id).Menge * Model._LUmweltindikatorwert.ElementAt(i).Wert;}
+                                        <td>@Html.Raw(total.ToString())</td>
+                                    
+                                    </tr>
+                                }
+                            }
+                        </table>
+                    </td>
+                </tr>
+            }
+                
+            @*<tr>
+            <td>
+                @Html.DisplayFor(model => model._Rohstoffe.FirstOrDefault(i => i.Id == model._Rohstoff.Rohstoff_Id).Name)
+            </td>
+            <td>
+               @Html.DisplayFor(model => model._Rohstoff.Menge_in_t) 
+            </td>
+            <td>
+                t
+            </td>
+            <td>
+                @Html.DisplayFor(model => model._LIndikator.FirstOrDefault(i => i.Id == model._Umweltindikatorwert.Umweltindikator_Id).Name)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model._Umweltindikatorwert.Wert)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model._LIndikator.FirstOrDefault(i => i.Id == model._Umweltindikatorwert.Umweltindikator_Id).Scope)
+            </td>
+        </tr>*@
+        </table>
+        <hr />
+        <div id="chartContainer" style="width: 50%; height: 300px" class="ChartDivLeft"></div>
+        <div id="chartContainer2" style="width: 50%; height: 300px" class="ChartDivRight"></div>
+    
+    </div>
+@section Scripts
+{
+    <script type="text/javascript">
+
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                //  $("#chartContainer").CanvasJSChart({
+                title: {
+                    text: "Umweltindikatoren",
+                    fontSize: 20,
+                    fontFamily: "Helvetica"
+
+                },
+                axisY: {
+                    title: ""
+                },
+
+                data: [{
+                    type: "column",
+                    indexLabelFontFamily: "Garamond",
+                    indexLabelFontSize: 20,
+                    startAngle: -20,
+                    showInLegend: true,
+                    dataPoints: @Html.Raw(ViewBag.DataPoints),
+                }]
+            });             
+            chart.render();
+
+            var chart2 = new CanvasJS.Chart("chartContainer2", {
+                //  $("#chartContainer").CanvasJSChart({
+                title: {
+                    text: "Rohstoffe",
+                    fontSize: 20,
+                    fontFamily: "Helvetica"
+
+                },
+                animationEnabled: true,
+                theme: "theme2",
+                data: [{
+                    type: "doughnut",
+                    indexLabel: "{label} {y} t",
+                    indexLabelFontFamily: "Garamond",
+                    indexLabelFontSize: 20,
+                    startAngle: -20,
+                    showInLegend: true,
+                    toolTipContent: "{legendText} {y} t",
+                    dataPoints: @Html.Raw(ViewBag.DataPointsRoh),
+                }]
+            });
+            chart2.render();
+        };
+    </script>
+}  
+}

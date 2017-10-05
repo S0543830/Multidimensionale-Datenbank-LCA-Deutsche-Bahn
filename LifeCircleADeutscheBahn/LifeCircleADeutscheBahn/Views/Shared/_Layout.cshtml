@@ -1,0 +1,68 @@
+﻿
+
+@using Microsoft.AspNet.Identity
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - LCAweb</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/Chart")
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</head>
+<body>
+<div class="navbar">
+    <a href='@Url.Action("Index", "Home")'>
+        <img id="logo" src='@Url.Content("../../Images/LogoGBUI_dunkelBlauHG.png")' />
+    </a>
+    <ul>
+        <li>@Html.ActionLink("Hilfe", "Help", "Home")</li>
+        <li>@Html.ActionLink("Info", "About", "Home")</li>
+        <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
+                
+        @if (Request.IsAuthenticated)
+        {
+            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+            {
+                @Html.AntiForgeryToken()
+                <li>
+                    @Html.ActionLink("Hallo " + User.Identity.GetUserName() + "!", "ManageLogins", "Manage", routeValues: null, htmlAttributes: new { title = "Verwalten" })
+                </li>
+                <li><a href="javascript:document.getElementById('logoutForm').submit()">Abmelden</a></li>
+
+            }
+        }
+        else
+        {
+            <li>@Html.ActionLink("Registrieren", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+            <li>@Html.ActionLink("Anmelden", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+
+        }
+    </ul>
+    <h4 class="headlineBox">@ViewBag.Title</h4>
+</div>
+<div class="bodyContainer">
+    @RenderBody()
+</div>
+
+<footer>
+    <ul>
+        <li>
+            &copy; @DateTime.Now.Year - HTW Berlin - Studiengang betriebliche Umweltinformatik
+            <img id="logoBUI" src="../../Images/bUI_logo.png" />
+        </li>
+        <li>@Html.ActionLink("Impressum", "Imprint", "Home")</li>
+    </ul>
+</footer>
+
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("scripts", required: false)
+</body>
+</html>
